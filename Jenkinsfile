@@ -1,35 +1,46 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:14'
-            args '-p 3000:3000'
-        }
-    }
+    agent any
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/springdom/jenkins-web-app'
+                git 'https://github.com/<YOUR_GITHUB_USERNAME>/jenkins-web-app.git'
             }
         }
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                script {
+                    docker.image('node:14').inside('-p 3000:3000') {
+                        sh 'npm install'
+                    }
+                }
             }
         }
         stage('Build') {
             steps {
-               sh 'npm run build'
-             }
+                script {
+                    docker.image('node:14').inside('-p 3000:3000') {
+                        sh 'npm run build'
+                    }
+                }
+            }
         }
         stage('Test') {
             steps {
-               sh 'npm test'
+                script {
+                    docker.image('node:14').inside('-p 3000:3000') {
+                        sh 'npm test'
+                    }
+                }
             }
         }
         stage('Deploy') {
             steps {
-               sh 'docker build -t jenkins-web-app .'
-               sh 'docker run -d -p 3000:3000 jenkins-web-app'
+                script {
+                    docker.image('node:14').inside('-p 3000:3000') {
+                        sh 'docker build -t jenkins-web-app .'
+                        sh 'docker run -d -p 3000:3000 jenkins-web-app'
+                    }
+                }
             }
         }
     }
