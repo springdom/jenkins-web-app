@@ -1,11 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/springdom/jenkins-web-app'
-            }
-        }
         stage('Install Dependencies') {
             steps {
                 script {
