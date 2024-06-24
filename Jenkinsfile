@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/<YOUR_GITHUB_USERNAME>/flask-jenkins-app.git'
+                git 'https://github.com/springdom/jenkins-web-app.git'
             }
         }
         stage('Setup') {
