@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    tools {
-        python 'Python3' // Make sure to configure Python in Jenkins global tool configuration
-    }
     stages {
         stage('Checkout') {
             steps {
@@ -11,14 +8,20 @@ pipeline {
         }
         stage('Setup') {
             steps {
-                sh 'python -m venv venv'
-                sh 'source venv/bin/activate && pip install -r requirements.txt'
+                sh '''
+                python3 -m venv venv
+                . venv/bin/activate
+                pip install -r requirements.txt
+                '''
             }
         }
         stage('Test') {
             steps {
-                // Add your test commands here, e.g., pytest
-                sh 'echo "No tests specified"'
+                sh '''
+                . venv/bin/activate
+                # Add your test commands here, e.g., pytest
+                echo "No tests specified"
+                '''
             }
         }
         stage('Deploy') {
