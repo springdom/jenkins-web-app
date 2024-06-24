@@ -26,7 +26,7 @@ pipeline {
                sh 'npm test'
             }
         }
-        stage('Deploy')
+        stage('Deploy') {
             steps {
                sh 'docker build -t jenkins-web-app .'
                sh 'docker run -d -p 3000:3000 jenkins-web-app'
